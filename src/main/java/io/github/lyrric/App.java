@@ -29,7 +29,7 @@ public class App {
 
     private static final AtomicBoolean status = new AtomicBoolean(false);
 
-    static final ExecutorService pool = Executors.newFixedThreadPool(20);
+    static final ExecutorService pool = Executors.newFixedThreadPool(10);
 
     private static final String URL = "https://sapph5api.leqilucky.com/Sale/Task/SoHo";
 
@@ -41,21 +41,12 @@ public class App {
         tokenId =  sc.nextLine().trim();
         System.out.println("请输入productID：");
         productID =  sc.nextLine().trim();
-        System.out.println("输入抢购时间:");
-        int hour = Integer.parseInt(sc.nextLine());
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime start = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), hour, 0, 0);
-        //提前一秒钟
-        start = start.minusSeconds(2);
         System.out.println("按回车键开始抢购");
         sc.nextLine();
-        System.out.println("等待抢购中......");
-        while (start.isAfter(LocalDateTime.now())) {
-            Thread.sleep(100);
-        }
+
         System.out.println("开始抢购中......");
         MyTask task = new MyTask();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             pool.submit(task);
             Thread.sleep(100);
         }
