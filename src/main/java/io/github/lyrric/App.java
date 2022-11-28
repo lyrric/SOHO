@@ -29,7 +29,7 @@ public class App {
 
     private static final AtomicBoolean status = new AtomicBoolean(false);
 
-    static final ExecutorService pool = Executors.newFixedThreadPool(10);
+    static final ExecutorService pool = Executors.newFixedThreadPool(20);
 
     private static final String URL = "https://sapph5api.leqilucky.com/Sale/Task/SoHo";
 
@@ -55,7 +55,7 @@ public class App {
         }
         System.out.println("开始抢购中......");
         MyTask task = new MyTask();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 20; i++) {
             pool.submit(task);
             Thread.sleep(100);
         }
