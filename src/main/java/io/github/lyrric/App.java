@@ -29,7 +29,7 @@ public class App {
 
     private static final AtomicBoolean status = new AtomicBoolean(false);
 
-    static final ExecutorService pool = Executors.newFixedThreadPool(10);
+    static final ExecutorService pool = Executors.newFixedThreadPool(5);
 
     private static final String URL = "https://sapph5api.leqilucky.com/Sale/Task/SoHo";
 
@@ -46,9 +46,8 @@ public class App {
 
         System.out.println("开始抢购中......");
         MyTask task = new MyTask();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             pool.submit(task);
-            Thread.sleep(100);
         }
         pool.shutdown();
         if (!status.get()) {
@@ -84,9 +83,9 @@ public class App {
         String json =  EntityUtils.toString(httpEntity, StandardCharsets.UTF_8);
         JSONObject jsonObject = JSONObject.parseObject(json);
         if (jsonObject.containsKey("ErrMsg") && jsonObject.getString("ErrMsg") != null) {
-            System.out.println("抢购失败:" + jsonObject.getString("ErrMsg"));
+            System.out.println(LocalDateTime.now() + " 抢购失败:" + jsonObject.getString("ErrMsg"));
         }else{
-            System.out.println("抢购成功！");
+            System.out.println(LocalDateTime.now() + " 抢购成功！");
             status.set(true);
         }
     }
