@@ -42,7 +42,7 @@ public class App {
         System.out.println("按回车键开始抢购");
         sc.nextLine();
 
-        Date startDate = DateUtil.parseDateTime("   2023-02-22 15:59:57").toJdkDate();
+        Date startDate = DateUtil.parseDateTime("2023-02-23 09:59:57").toJdkDate();
         Timer timer = new Timer(false);
         timer.schedule(new TimerTask() {
             @Override
