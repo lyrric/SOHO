@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class App {
+public class AutoApp {
 
     private static String ukey ="85be376d0670f10bb8a77916bf774e53";
     private static String tokenId="fd70bf4f1aa6025d2990574cd975cc18";
@@ -42,22 +42,31 @@ public class App {
         System.out.println("按回车键开始抢购");
         sc.nextLine();
 
-        System.out.println(LocalDateTime.now()+"    开始抢购中......");
-        MyTask task = new MyTask();
-        for (int i = 0; i < 10; i++) {
-            pool.submit(task);
-        }
-        pool.shutdown();
-        try {
-            pool.awaitTermination(1, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        if (!status.get()) {
-            System.out.println(LocalDateTime.now()+"    抢购失败");
-        }else{
-            System.out.println(LocalDateTime.now()+"    抢购成功");
-        }
+
+        Date startDate = DateUtil.parseDateTime("2023-02-28 12:59:57").toJdkDate();
+        Timer timer = new Timer(false);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(LocalDateTime.now()+"    开始抢购中......");
+                MyTask task = new MyTask();
+                for (int i = 0; i < 10; i++) {
+                    pool.submit(task);
+                }
+                pool.shutdown();
+                try {
+                    pool.awaitTermination(1, TimeUnit.MINUTES);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if (!status.get()) {
+                    System.out.println(LocalDateTime.now()+"    抢购失败");
+                }else{
+                    System.out.println(LocalDateTime.now()+"    抢购成功");
+                }
+            }
+        }, startDate);
+
 
     }
 
